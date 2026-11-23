@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Muling · 做 AI 工具、短视频和小游戏</title>
+<meta name="description" content="Muling 的工作台：AI 工具使用心得、短视频制作流程和网页小游戏开发，三款小游戏可以直接在线试玩。">
+<meta name="theme-color" content="#1E3833">
+<style>
+:root{
+  --mat:#1E3833;      /* 切割垫底色 */
+  --grid:#2C4E47;     /* 网格线 */
+  --paper:#EEE7D7;    /* 便签纸 */
+  --marker:#F3C24F;   /* 记号笔黄 */
+  --ink:#16211E;      /* 墨色 */
+  --coral:#E4735C;    /* 红色刻度 */
+  --mono:"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);color:var(--paper);line-height:1.7;
+  background-color:var(--mat);
+  background-image:
+    linear-gradient(var(--grid) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px),
+    linear-gradient(rgba(44,78,71,.45) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(44,78,71,.45) 1px,transparent 1px);
+  background-size:120px 120px,120px 120px,24px 24px,24px 24px;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--marker);outline-offset:3px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* 顶部标尺 */
+.ruler{
+  height:28px;border-bottom:1px solid var(--grid);
+  background:
+    repeating-linear-gradient(90deg,var(--paper) 0 1px,transparent 1px 24px) bottom/100% 8px no-repeat,
+    repeating-linear-gradient(90deg,var(--paper) 0 1px,transparent 1px 120px) bottom/100% 16px no-repeat;
+  opacity:.35;
+}
+nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;font-family:var(--mono);font-size:13px;letter-spacing:.04em}
+nav .logo{font-weight:700;font-size:15px;text-decoration:none}
+nav .logo span{color:var(--marker)}
+nav ul{display:flex;gap:22px;list-style:none}
+nav a{text-decoration:none;opacity:.8}
+nav a:hover{opacity:1;color:var(--marker)}
+
+/* 首屏 */
+.hero{padding:72px 0 88px;position:relative}
+.coord{font-family:var(--mono);font-size:12px;color:var(--coral);letter-spacing:.08em}
+.hero h1{
+  font-size:clamp(44px,8.5vw,104px);line-height:1.02;font-weight:800;letter-spacing:-.02em;
+  margin:14px 0 26px;max-width:12em;
+}
+.hero h1 mark{background:none;color:var(--ink);position:relative;z-index:0;padding:0 .08em}
+.hero h1 mark::before{content:"";position:absolute;inset:.18em -.04em .06em;background:var(--marker);z-index:-1;transform:rotate(-1.2deg);border-radius:3px}
+.hero p.lead{font-size:clamp(16px,2vw,19px);max-width:34em;opacity:.88}
+.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;font-family:var(--mono);font-size:13px}
+.hero .tags span{border:1px dashed rgba(238,231,215,.5);padding:4px 12px;border-radius:2px}
+
+/* 区块标题：像贴在垫子上的标签 */
+.label{display:inline-flex;align-items:baseline;gap:12px;background:var(--paper);color:var(--ink);padding:6px 14px 6px 12px;font-weight:700;font-size:15px;transform:rotate(-1deg);box-shadow:3px 3px 0 rgba(0,0,0,.25)}
+.label small{font-family:var(--mono);font-weight:400;font-size:12px;color:var(--coral)}
+section{padding:56px 0}
+section > p.sub{margin:18px 0 32px;max-width:40em;opacity:.8}
+
+/* 游戏卡：像压在垫子上的拍立得 */
+.games{display:grid;grid-template-columns:repeat(3,1fr);gap:34px}
+.card{
+  background:var(--paper);color:var(--ink);padding:12px 12px 18px;
+  box-shadow:6px 8px 0 rgba(0,0,0,.28);transition:transform .25s ease;
+  display:flex;flex-direction:column;
+}
+.card:nth-child(1){transform:rotate(-1.6deg)}
+.card:nth-child(2){transform:rotate(1.1deg) translateY(14px)}
+.card:nth-child(3){transform:rotate(-.6deg)}
+.card:hover{transform:rotate(0) translateY(-6px)}
+.card .shot{aspect-ratio:3/4;overflow:hidden;background:#000}
+.card img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.card h3{font-size:20px;margin:14px 4px 2px}
+.card .who{font-family:var(--mono);font-size:12px;color:#6B6455;margin:0 4px}
+.card p{font-size:14px;margin:8px 4px 16px;flex:1}
+.card .actions{display:flex;gap:10px;margin:0 4px;align-items:center}
+.btn{display:inline-block;background:var(--ink);color:var(--marker);text-decoration:none;font-weight:700;padding:9px 16px;border-radius:2px;font-size:15px}
+.btn:hover{background:var(--coral);color:var(--ink)}
+.card .alt{font-family:var(--mono);font-size:12px;color:#6B6455}
+
+/* 方向 */
+.areas{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid rgba(238,231,215,.3)}
+.area{padding:26px 24px 26px 0;border-bottom:1px solid rgba(238,231,215,.3)}
+.area + .area{padding-left:24px;border-left:1px solid rgba(238,231,215,.3)}
+.area h3{font-size:19px;margin-bottom:8px}
+.area h3::before{content:"";display:inline-block;width:10px;height:10px;background:var(--coral);margin-right:10px;vertical-align:2px}
+.area p{font-size:15px;opacity:.82}
+
+/* 姊妹站 */
+.sites{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.site{display:block;text-decoration:none;border:1px solid rgba(238,231,215,.4);padding:22px 24px;transition:background .2s}
+.site:hover{background:rgba(243,194,79,.08);border-color:var(--marker)}
+.site .url{font-family:var(--mono);color:var(--marker);font-size:14px}
+.site h3{font-size:22px;margin:6px 0}
+.site p{font-size:14px;opacity:.8}
+
+footer{padding:48px 0 60px;font-family:var(--mono);font-size:12px;opacity:.65;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1px solid var(--grid);margin-top:40px}
+footer a{text-decoration:none}
+footer a:hover{color:var(--marker)}
+
+@media (max-width:860px){
+  .games{grid-template-columns:1fr;gap:28px;max-width:420px}
+  .card:nth-child(2){transform:rotate(1.1deg)}
+  .areas{grid-template-columns:1fr}
+  .area,.area + .area{padding:20px 0;border-left:none}
+  .sites{grid-template-columns:1fr}
+  nav ul{gap:14px}
+  .hero{padding:48px 0 60px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="ruler" aria-hidden="true"></div>
+<div class="wrap">
+  <nav aria-label="主导航">
+    <a class="logo" href="/">muling<span>.github.io</span></a>
+    <ul>
+      <li><a href="#games">小游戏</a></li>
+      <li><a href="#work">在做的事</a></li>
+      <li><a href="#sites">另外两个站</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <div class="coord">X 0 · Y 0 — 工作台</div>
+    <h1>用 AI 把想法<br>做成<mark>能玩</mark>的东西</h1>
+    <p class="lead">我是 Muling。平时用 AI 工具做短视频、写网页小游戏，也分享这些工具到底怎么用、哪里会踩坑。下面三款小游戏都是这样做出来的，点开就能玩。</p>
+    <div class="tags" aria-label="方向"><span>AI 工具</span><span>短视频制作</span><span>小游戏开发</span><span>技术分享</span></div>
+  </header>
+
+  <section id="games" aria-labelledby="games-h">
+    <h2 class="label" id="games-h">小游戏 <small>3 款 · 手机竖屏体验最好</small></h2>
+    <p class="sub">不用下载、不用登录，浏览器打开就玩。代码都开源在 GitHub。</p>
+    <div class="games">
+      <article class="card">
+        <div class="shot"><img src="img/cover-hengsao-liuguo.jpg" alt="横扫六国游戏首页：白起与孙膑站在长平战场前" loading="lazy" width="480" height="1039"></div>
+        <h3>横扫六国</h3>
+        <div class="who">战国割草 · 约 2 分钟一局</div>
+        <p>选白起或孙膑一人对千军，手指拖着走，刀枪自己砍，最后迎战骑竹简登场的赵括。</p>
+        <div class="actions"><a class="btn" href="https://beimangyisui.github.io/hengsao-liuguo/">开始试玩</a><a class="alt" href="https://github.com/BeiMangYiSui/hengsao-liuguo">源码</a></div>
+      </article>
+      <article class="card">
+        <div class="shot"><img src="img/cover-pet-pickup-after-work.jpg" alt="萌宠来接你下班游戏首页：夜晚写字楼门口，选择女生或男生" loading="lazy" width="480" height="1039"></div>
+        <h3>萌宠来接你下班</h3>
+        <div class="who">兜风回家 · 约 1 分钟一局</div>
+        <p>大橘猫来公司门口接你，一路吃小鱼干、飞越江面、下雨举尾巴挡雨，到家拍一张合影。</p>
+        <div class="actions"><a class="btn" href="https://pi-niuniu.github.io/pet-pickup-after-work/">开始试玩</a><a class="alt" href="https://github.com/pi-niuniu/pet-pickup-after-work">源码</a></div>
+      </article>
+      <article class="card">
+        <div class="shot"><img src="img/cover-ride-pet-to-work.jpg" alt="骑着萌宠去上班游戏首页：三枚彩蛋和六种可孵出的萌宠" loading="lazy" width="480" height="1039"></div>
+        <h3>骑着萌宠去上班</h3>
+        <div class="who">冲刺打卡 · 约 30 秒一局</div>
+        <p>破壳孵出坐骑，骑着它躲开“在吗？”消息轰炸，赶在电梯关门前扒门打卡。</p>
+        <div class="actions"><a class="btn" href="https://pi-niuniu.github.io/ride-pet-to-work/">开始试玩</a><a class="alt" href="https://github.com/pi-niuniu/ride-pet-to-work">源码</a></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="work" aria-labelledby="work-h">
+    <h2 class="label" id="work-h">在做的事</h2>
+    <p class="sub">三件事其实是一条线：用 AI 工具出素材，剪成短视频，再把好玩的点子做成小游戏。</p>
+    <div class="areas">
+      <div class="area"><h3>AI 工具使用</h3><p>出图、出视频、配音、配乐、写代码，各用什么工具，提示词怎么写，额度怎么省。</p></div>
+      <div class="area"><h3>短视频制作</h3><p>从剧本、分镜到剪辑、混音、字幕，一条 AI 短片完整做下来的流程和取舍。</p></div>
+      <div class="area"><h3>小游戏开发</h3><p>纯网页、零依赖的小游戏，从玩法设计、美术接入到打包上架小程序的过程。</p></div>
+    </div>
+  </section>
+
+  <section id="sites" aria-labelledby="sites-h">
+    <h2 class="label" id="sites-h">另外两个站</h2>
+    <p class="sub">按题材分开放：战国历史一个站，萌宠一个站。</p>
+    <div class="sites">
+      <a class="site" href="https://beimangyisui.github.io/">
+        <div class="url">beimangyisui.github.io</div>
+        <h3>北邙一穗</h3>
+        <p>战国历史短视频、战国题材游戏，以及做这些用到的 AI 工具。</p>
+      </a>
+      <a class="site" href="https://pi-niuniu.github.io/">
+        <div class="url">pi-niuniu.github.io</div>
+        <h3>皮妞妞</h3>
+        <p>萌宠分享、萌宠短视频，还有两款萌宠通勤小游戏。</p>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Muling</span>
+    <a href="https://github.com/puck-muling">github.com/puck-muling</a>
+  </footer>
+</div>
+</body>
+</html>

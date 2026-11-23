@@ -3,202 +3,307 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Muling · 做 AI 工具、短视频和小游戏</title>
-<meta name="description" content="Muling 的工作台：AI 工具使用心得、短视频制作流程和网页小游戏开发，三款小游戏可以直接在线试玩。">
-<meta name="theme-color" content="#1E3833">
+<title>木之灵 Muling · AI 工程、短视频与工具</title>
+<meta name="description" content="木之灵（Muling）：写开发者工具，做 AI 短视频，整理每天的 AI 新词。PeerAgent、每日新词雷达、四季三餐。">
+<meta name="theme-color" content="#F2F3EF">
 <style>
 :root{
-  --mat:#1E3833;      /* 切割垫底色 */
-  --grid:#2C4E47;     /* 网格线 */
-  --paper:#EEE7D7;    /* 便签纸 */
-  --marker:#F3C24F;   /* 记号笔黄 */
-  --ink:#16211E;      /* 墨色 */
-  --coral:#E4735C;    /* 红色刻度 */
-  --mono:"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --porcelain:#F2F3EF;
+  --paper:#FAFAF7;
+  --ink:#0F1115;
+  --ultra:#2337D9;
+  --slate:#6B7079;
+  --hair:#D8DAD4;
+  --term:#14161B;
   --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --latin:"Avenir Next","Helvetica Neue","Segoe UI",Arial,sans-serif;
+  --mono:"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{
-  font-family:var(--sans);color:var(--paper);line-height:1.7;
-  background-color:var(--mat);
-  background-image:
-    linear-gradient(var(--grid) 1px,transparent 1px),
-    linear-gradient(90deg,var(--grid) 1px,transparent 1px),
-    linear-gradient(rgba(44,78,71,.45) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(44,78,71,.45) 1px,transparent 1px);
-  background-size:120px 120px,120px 120px,24px 24px,24px 24px;
-  -webkit-font-smoothing:antialiased;
-}
+body{background:var(--porcelain);color:var(--ink);font-family:var(--latin),var(--sans);font-size:17px;line-height:1.75;-webkit-font-smoothing:antialiased}
 a{color:inherit}
-:focus-visible{outline:3px solid var(--marker);outline-offset:3px}
-.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+:focus-visible{outline:2px solid var(--ultra);outline-offset:4px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 40px}
 
-/* 顶部标尺 */
-.ruler{
-  height:28px;border-bottom:1px solid var(--grid);
-  background:
-    repeating-linear-gradient(90deg,var(--paper) 0 1px,transparent 1px 24px) bottom/100% 8px no-repeat,
-    repeating-linear-gradient(90deg,var(--paper) 0 1px,transparent 1px 120px) bottom/100% 16px no-repeat;
-  opacity:.35;
-}
-nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;font-family:var(--mono);font-size:13px;letter-spacing:.04em}
-nav .logo{font-weight:700;font-size:15px;text-decoration:none}
-nav .logo span{color:var(--marker)}
-nav ul{display:flex;gap:22px;list-style:none}
-nav a{text-decoration:none;opacity:.8}
-nav a:hover{opacity:1;color:var(--marker)}
+/* 导航 */
+nav{position:sticky;top:0;z-index:10;background:rgba(242,243,239,.82);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid transparent;transition:border-color .3s}
+nav.scrolled{border-bottom-color:var(--hair)}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:68px}
+.brand{text-decoration:none;display:flex;align-items:baseline;gap:10px}
+.brand b{font-family:var(--sans);font-weight:600;font-size:18px;letter-spacing:.08em}
+.brand span{font-size:12px;letter-spacing:.28em;color:var(--slate)}
+nav ul{display:flex;gap:34px;list-style:none;font-size:14px;letter-spacing:.06em}
+nav ul a{text-decoration:none;color:var(--slate);transition:color .2s}
+nav ul a:hover{color:var(--ink)}
 
 /* 首屏 */
-.hero{padding:72px 0 88px;position:relative}
-.coord{font-family:var(--mono);font-size:12px;color:var(--coral);letter-spacing:.08em}
-.hero h1{
-  font-size:clamp(44px,8.5vw,104px);line-height:1.02;font-weight:800;letter-spacing:-.02em;
-  margin:14px 0 26px;max-width:12em;
-}
-.hero h1 mark{background:none;color:var(--ink);position:relative;z-index:0;padding:0 .08em}
-.hero h1 mark::before{content:"";position:absolute;inset:.18em -.04em .06em;background:var(--marker);z-index:-1;transform:rotate(-1.2deg);border-radius:3px}
-.hero p.lead{font-size:clamp(16px,2vw,19px);max-width:34em;opacity:.88}
-.hero .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;font-family:var(--mono);font-size:13px}
-.hero .tags span{border:1px dashed rgba(238,231,215,.5);padding:4px 12px;border-radius:2px}
+.hero{min-height:calc(100vh - 68px);display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center;padding:56px 0 80px}
+.eyebrow{font-size:12px;letter-spacing:.32em;color:var(--slate);text-transform:uppercase}
+.hero h1{font-family:var(--sans);font-weight:200;font-size:clamp(44px,6.4vw,96px);line-height:1.12;letter-spacing:-.02em;margin:26px 0 34px}
+.hero h1 em{font-style:normal;font-weight:500;color:var(--ultra)}
+.hero p{font-family:var(--sans);font-weight:300;font-size:19px;color:#3A3E46;max-width:30em}
+.hero .cta{display:flex;gap:28px;align-items:center;margin-top:44px;font-size:15px}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--paper);text-decoration:none;padding:15px 26px;border-radius:999px;letter-spacing:.04em;transition:background .25s}
+.btn:hover{background:var(--ultra)}
+.btn svg{width:16px;height:16px}
+.link{text-decoration:none;border-bottom:1px solid var(--hair);padding-bottom:2px;transition:border-color .2s}
+.link:hover{border-color:var(--ink)}
 
-/* 区块标题：像贴在垫子上的标签 */
-.label{display:inline-flex;align-items:baseline;gap:12px;background:var(--paper);color:var(--ink);padding:6px 14px 6px 12px;font-weight:700;font-size:15px;transform:rotate(-1deg);box-shadow:3px 3px 0 rgba(0,0,0,.25)}
-.label small{font-family:var(--mono);font-weight:400;font-size:12px;color:var(--coral)}
-section{padding:56px 0}
-section > p.sub{margin:18px 0 32px;max-width:40em;opacity:.8}
+/* 招牌：互审终端 */
+.term{background:var(--term);color:#D9DCE3;border-radius:16px;box-shadow:0 40px 80px -30px rgba(15,17,21,.45),0 0 0 1px rgba(15,17,21,.06);overflow:hidden;font-family:var(--mono);font-size:13.5px;line-height:1.85}
+.term-bar{display:flex;align-items:center;gap:8px;padding:14px 18px;border-bottom:1px solid #23262E}
+.term-bar i{width:11px;height:11px;border-radius:50%;background:#3A3D46}
+.term-bar span{margin-left:12px;color:#7D828E;font-size:12px;letter-spacing:.04em}
+.term-body{padding:22px 22px 26px;min-height:330px}
+.line{white-space:pre-wrap;opacity:0;transform:translateY(4px);transition:opacity .35s,transform .35s}
+.line.on{opacity:1;transform:none}
+.who-c{color:#E8A87C}.who-x{color:#8FB4FF}.ok{color:#7FD6A4}.warn{color:#F2C46B}.dim{color:#6E7380}
+.caret{display:inline-block;width:8px;height:15px;background:#8FB4FF;vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.term-foot{display:flex;justify-content:space-between;padding:12px 22px;border-top:1px solid #23262E;color:#6E7380;font-size:12px}
 
-/* 游戏卡：像压在垫子上的拍立得 */
-.games{display:grid;grid-template-columns:repeat(3,1fr);gap:34px}
-.card{
-  background:var(--paper);color:var(--ink);padding:12px 12px 18px;
-  box-shadow:6px 8px 0 rgba(0,0,0,.28);transition:transform .25s ease;
-  display:flex;flex-direction:column;
-}
-.card:nth-child(1){transform:rotate(-1.6deg)}
-.card:nth-child(2){transform:rotate(1.1deg) translateY(14px)}
-.card:nth-child(3){transform:rotate(-.6deg)}
-.card:hover{transform:rotate(0) translateY(-6px)}
-.card .shot{aspect-ratio:3/4;overflow:hidden;background:#000}
-.card img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
-.card h3{font-size:20px;margin:14px 4px 2px}
-.card .who{font-family:var(--mono);font-size:12px;color:#6B6455;margin:0 4px}
-.card p{font-size:14px;margin:8px 4px 16px;flex:1}
-.card .actions{display:flex;gap:10px;margin:0 4px;align-items:center}
-.btn{display:inline-block;background:var(--ink);color:var(--marker);text-decoration:none;font-weight:700;padding:9px 16px;border-radius:2px;font-size:15px}
-.btn:hover{background:var(--coral);color:var(--ink)}
-.card .alt{font-family:var(--mono);font-size:12px;color:#6B6455}
+/* 区块 */
+section{padding:120px 0;border-top:1px solid var(--hair)}
+.head{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:72px}
+.head h2{font-family:var(--sans);font-weight:200;font-size:clamp(36px,4.2vw,60px);letter-spacing:-.01em;line-height:1.15}
+.head p{font-family:var(--sans);font-weight:300;color:var(--slate);max-width:24em}
+
+/* 作品 */
+.work{display:grid;grid-template-columns:1fr 1.15fr;gap:72px;align-items:center;padding:56px 0}
+.work + .work{border-top:1px solid var(--hair)}
+.work.flip{grid-template-columns:1.15fr 1fr}
+.work.flip .copy{order:2}
+.kind{font-size:12px;letter-spacing:.28em;color:var(--ultra);text-transform:uppercase}
+.work h3{font-family:var(--sans);font-weight:300;font-size:clamp(30px,3.2vw,44px);line-height:1.2;margin:14px 0 18px}
+.work h3 small{display:block;font-family:var(--latin);font-weight:500;font-size:15px;letter-spacing:.08em;color:var(--slate);margin-top:6px}
+.work p{font-family:var(--sans);font-weight:300;color:#3A3E46;max-width:28em}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 30px}
+.chips span{font-family:var(--sans);font-size:13px;color:var(--slate);border:1px solid var(--hair);border-radius:999px;padding:4px 14px;background:var(--paper)}
+.visual{border-radius:16px;overflow:hidden;background:var(--paper);box-shadow:0 30px 70px -36px rgba(15,17,21,.35),0 0 0 1px rgba(15,17,21,.05)}
+.browser-bar{display:flex;gap:7px;align-items:center;padding:12px 16px;background:#E9EAE5;border-bottom:1px solid var(--hair)}
+.browser-bar i{width:10px;height:10px;border-radius:50%;background:#C9CBC4}
+.browser-bar span{margin-left:12px;font-family:var(--mono);font-size:11.5px;color:var(--slate);background:var(--paper);border-radius:6px;padding:2px 12px}
+.visual img{display:block;width:100%;height:auto}
+
+/* PeerAgent 小图：两栏对话 */
+.duo-cmd{background:var(--term);color:#9BA1AD;font-family:var(--mono);font-size:13px;padding:18px 24px;border-bottom:1px solid #23262E}
+.duo-cmd b{color:#7FD6A4;font-weight:400}
+.duo{display:grid;grid-template-columns:1fr 1fr;background:var(--term);color:#D9DCE3;font-family:var(--mono);font-size:14px;line-height:2.1}
+.duo > div{padding:34px 28px 38px}
+.duo .arrow{display:none}
+.duo > div + div{border-left:1px solid #23262E}
+.duo li{list-style:none}
+.duo li::before{content:"→ ";color:#4B505C}
+.duo-out{background:#101216;color:#7FD6A4;font-family:var(--mono);font-size:13px;padding:16px 24px;border-top:1px solid #23262E}
+.duo h4{font-weight:500;font-size:11px;letter-spacing:.2em;margin-bottom:12px}
+.duo .c h4{color:#E8A87C}.duo .x h4{color:#8FB4FF}
+
+/* 四季三餐：手机卡 */
+.phone-stage{background:linear-gradient(160deg,#E7EBE3,#F6F2EA);display:grid;place-items:center;padding:48px 20px}
+.phone{width:270px;background:#FFFDF8;border-radius:34px;padding:22px 18px 26px;box-shadow:0 30px 60px -28px rgba(60,50,30,.4),0 0 0 8px #1B1C1F}
+.phone .t{font-family:var(--sans);font-size:12px;color:#9A8F7A;letter-spacing:.1em}
+.phone h5{font-family:var(--sans);font-weight:600;font-size:19px;margin:4px 0 14px;color:#2C2A25}
+.dish{display:flex;justify-content:space-between;font-family:var(--sans);font-size:14px;padding:9px 0;border-bottom:1px dashed #E6DFD0;color:#2C2A25}
+.dish em{font-style:normal;font-size:11.5px;color:#B0875A;background:#FBF1E2;border-radius:6px;padding:0 8px}
+.buy{margin-top:16px;background:#F3F6EE;border-radius:12px;padding:12px 14px;font-family:var(--sans);font-size:12.5px;color:#4E5A43;line-height:1.9}
+.buy b{display:block;font-size:11px;letter-spacing:.12em;color:#7C8A6E;font-weight:500}
 
 /* 方向 */
-.areas{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid rgba(238,231,215,.3)}
-.area{padding:26px 24px 26px 0;border-bottom:1px solid rgba(238,231,215,.3)}
-.area + .area{padding-left:24px;border-left:1px solid rgba(238,231,215,.3)}
-.area h3{font-size:19px;margin-bottom:8px}
-.area h3::before{content:"";display:inline-block;width:10px;height:10px;background:var(--coral);margin-right:10px;vertical-align:2px}
-.area p{font-size:15px;opacity:.82}
+.fields{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--ink)}
+.field{padding:30px 28px 0 0}
+.field + .field{padding-left:28px;border-left:1px solid var(--hair)}
+.field h3{font-family:var(--sans);font-weight:500;font-size:20px;margin-bottom:12px}
+.field p{font-family:var(--sans);font-weight:300;font-size:15px;color:var(--slate)}
 
-/* 姊妹站 */
-.sites{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.site{display:block;text-decoration:none;border:1px solid rgba(238,231,215,.4);padding:22px 24px;transition:background .2s}
-.site:hover{background:rgba(243,194,79,.08);border-color:var(--marker)}
-.site .url{font-family:var(--mono);color:var(--marker);font-size:14px}
-.site h3{font-size:22px;margin:6px 0}
-.site p{font-size:14px;opacity:.8}
-
-footer{padding:48px 0 60px;font-family:var(--mono);font-size:12px;opacity:.65;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1px solid var(--grid);margin-top:40px}
+/* 结尾 */
+.outro{padding:140px 0 120px;text-align:center}
+.outro h2{font-family:var(--sans);font-weight:200;font-size:clamp(34px,4.6vw,64px);line-height:1.25}
+.outro .btn{margin-top:44px}
+footer{border-top:1px solid var(--hair);padding:30px 0 46px;font-size:13px;color:var(--slate)}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 footer a{text-decoration:none}
-footer a:hover{color:var(--marker)}
+footer a:hover{color:var(--ink)}
 
-@media (max-width:860px){
-  .games{grid-template-columns:1fr;gap:28px;max-width:420px}
-  .card:nth-child(2){transform:rotate(1.1deg)}
-  .areas{grid-template-columns:1fr}
-  .area,.area + .area{padding:20px 0;border-left:none}
-  .sites{grid-template-columns:1fr}
-  nav ul{gap:14px}
-  .hero{padding:48px 0 60px}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+
+@media (max-width:980px){
+  .wrap{padding:0 22px}
+  .hero{grid-template-columns:1fr;gap:48px;min-height:auto;padding:40px 0 72px}
+  .work,.work.flip{grid-template-columns:1fr;gap:36px}
+  .work.flip .copy{order:0}
+  .fields{grid-template-columns:1fr 1fr}
+  .field:nth-child(3){padding-left:0;border-left:none}
+  .field{padding-bottom:28px}
+  .head{flex-direction:column;align-items:start;gap:16px;margin-bottom:40px}
+  section{padding:84px 0}
+  nav ul{gap:20px}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media (max-width:560px){
+  .fields{grid-template-columns:1fr}
+  .field,.field + .field{padding-left:0;border-left:none}
+  .duo{grid-template-columns:1fr}
+  .duo > div + div{border-left:none;border-top:1px solid #23262E}
+  nav ul li:not(:last-child){display:none}
+  .term{font-size:12.5px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  .reveal,.line{opacity:1;transform:none}
+}
 </style>
 </head>
 <body>
-<div class="ruler" aria-hidden="true"></div>
-<div class="wrap">
-  <nav aria-label="主导航">
-    <a class="logo" href="/">muling<span>.github.io</span></a>
+<nav id="nav" aria-label="主导航">
+  <div class="wrap">
+    <a class="brand" href="#top"><b>木之灵</b><span>MULING</span></a>
     <ul>
-      <li><a href="#games">小游戏</a></li>
-      <li><a href="#work">在做的事</a></li>
-      <li><a href="#sites">另外两个站</a></li>
+      <li><a href="#works">作品</a></li>
+      <li><a href="#fields">方向</a></li>
+      <li><a href="https://github.com/puck-muling">GitHub</a></li>
     </ul>
-  </nav>
+  </div>
+</nav>
 
-  <header class="hero">
-    <div class="coord">X 0 · Y 0 — 工作台</div>
-    <h1>用 AI 把想法<br>做成<mark>能玩</mark>的东西</h1>
-    <p class="lead">我是 Muling。平时用 AI 工具做短视频、写网页小游戏，也分享这些工具到底怎么用、哪里会踩坑。下面三款小游戏都是这样做出来的，点开就能玩。</p>
-    <div class="tags" aria-label="方向"><span>AI 工具</span><span>短视频制作</span><span>小游戏开发</span><span>技术分享</span></div>
-  </header>
+<main id="top">
+  <div class="wrap">
+    <header class="hero">
+      <div>
+        <div class="eyebrow">AI Engineering · Short Films · Tools</div>
+        <h1>让 AI 干活，<br>再让<em>另一个 AI</em><br>替你把关。</h1>
+        <p>我是木之灵。写开发者工具，做 AI 短视频，也把每天冒出来的新模型、新项目整理成看板。下面是我公开的作品。</p>
+        <div class="cta">
+          <a class="btn" href="#works">看作品<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          <a class="link" href="https://github.com/puck-muling">github.com/puck-muling</a>
+        </div>
+      </div>
 
-  <section id="games" aria-labelledby="games-h">
-    <h2 class="label" id="games-h">小游戏 <small>3 款 · 手机竖屏体验最好</small></h2>
-    <p class="sub">不用下载、不用登录，浏览器打开就玩。代码都开源在 GitHub。</p>
-    <div class="games">
-      <article class="card">
-        <div class="shot"><img src="img/cover-hengsao-liuguo.jpg" alt="横扫六国游戏首页：白起与孙膑站在长平战场前" loading="lazy" width="480" height="1039"></div>
-        <h3>横扫六国</h3>
-        <div class="who">战国割草 · 约 2 分钟一局</div>
-        <p>选白起或孙膑一人对千军，手指拖着走，刀枪自己砍，最后迎战骑竹简登场的赵括。</p>
-        <div class="actions"><a class="btn" href="https://beimangyisui.github.io/hengsao-liuguo/">开始试玩</a><a class="alt" href="https://github.com/BeiMangYiSui/hengsao-liuguo">源码</a></div>
+      <figure class="term" aria-label="PeerAgent 互审过程演示">
+        <div class="term-bar"><i></i><i></i><i></i><span>peer-agent · review</span></div>
+        <div class="term-body" id="term">
+          <div class="line"><span class="who-c">claude</span> › 登录失败重试已改好，请 Codex 复核</div>
+          <div class="line dim">  ↳ 调用本机 codex CLI · 只读模式 · 订阅登录</div>
+          <div class="line"><span class="who-x">codex</span>  › 审阅 auth/retry.py …</div>
+          <div class="line warn">  ⚠ 第 42 行：重试没有上限，鉴权失效时会一直请求</div>
+          <div class="line warn">  ⚠ 第 57 行：异常被吞掉，日志里看不到原因</div>
+          <div class="line"><span class="who-x">codex</span>  › 建议：最多 3 次 + 指数退避，失败时抛出原错误</div>
+          <div class="line"><span class="who-c">claude</span> › 已按建议修改，补了两条测试</div>
+          <div class="line ok">  ✓ tests 18/18 passed · 计费门禁正常 · 未触发熔断</div>
+          <div class="line"><span class="caret"></span></div>
+        </div>
+        <div class="term-foot"><span>Claude Code ⇄ Codex</span><span>PeerAgent 0.1.6</span></div>
+      </figure>
+    </header>
+  </div>
+
+  <section id="works" aria-labelledby="works-h">
+    <div class="wrap">
+      <div class="head">
+        <h2 id="works-h">作品</h2>
+        <p>都开源在 GitHub，能直接用、直接看。</p>
+      </div>
+
+      <article class="work reveal">
+        <div class="copy">
+          <div class="kind">Developer Tool</div>
+          <h3>PeerAgent<small>让 Claude Code 和 Codex 互相审代码</small></h3>
+          <p>在当前会话里请另一个模型检查代码，审阅意见直接带回来，省去切窗口和搬运结果。用本机官方 CLI 和你已有的订阅，审阅全程只读。</p>
+          <div class="chips"><span>只读审阅</span><span>防静默扣费</span><span>封号熔断</span><span>零第三方依赖</span><span>macOS · Linux · WSL2</span></div>
+          <a class="btn" href="https://github.com/puck-muling/peer-agent">查看仓库<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 11L11 5M6 5h5v5"/></svg></a>
+        </div>
+        <div class="visual">
+          <div class="duo-cmd" aria-hidden="true"><b>$</b> peer review --with codex --readonly</div>
+          <div class="duo" aria-hidden="true">
+            <div class="c"><h4>CLAUDE CODE · 作者</h4><ul><li>写代码</li><li>发给对方复核</li><li>按意见修改</li><li>跑测试</li></ul></div>
+            <div class="x"><h4>CODEX · 审阅</h4><ul><li>只读检查</li><li>指出风险与行号</li><li>给出修改建议</li><li>复核修改结果</li></ul></div>
+          </div>
+          <div class="duo-out" aria-hidden="true">✓ 2 条意见已处理 · 计费门禁正常 · 未触发熔断</div>
+        </div>
       </article>
-      <article class="card">
-        <div class="shot"><img src="img/cover-pet-pickup-after-work.jpg" alt="萌宠来接你下班游戏首页：夜晚写字楼门口，选择女生或男生" loading="lazy" width="480" height="1039"></div>
-        <h3>萌宠来接你下班</h3>
-        <div class="who">兜风回家 · 约 1 分钟一局</div>
-        <p>大橘猫来公司门口接你，一路吃小鱼干、飞越江面、下雨举尾巴挡雨，到家拍一张合影。</p>
-        <div class="actions"><a class="btn" href="https://pi-niuniu.github.io/pet-pickup-after-work/">开始试玩</a><a class="alt" href="https://github.com/pi-niuniu/pet-pickup-after-work">源码</a></div>
+
+      <article class="work flip reveal">
+        <div class="copy">
+          <div class="kind">AI Radar</div>
+          <h3>每日新词雷达<small>AI 与开源黑马动向</small></h3>
+          <p>每天 10:00 和 19:00 自动巡航 GitHub、Hugging Face 和各家站点地图，把刚冒头的新模型、新项目和新词整理成一张中英对照的看板。</p>
+          <div class="chips"><span>每日两场</span><span>爆发增速榜</span><span>中英对照</span><span>零成本自动化</span></div>
+          <a class="btn" href="https://puck-muling.github.io/new-term-radar-web/">打开看板<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 11L11 5M6 5h5v5"/></svg></a>
+        </div>
+        <div class="visual">
+          <div class="browser-bar"><i></i><i></i><i></i><span>new-term-radar-web</span></div>
+          <img src="img/radar.webp" alt="每日新词雷达看板：今日爆发项目数、最高单日增速和开源黑马爆发榜" width="1200" height="750" loading="lazy">
+        </div>
       </article>
-      <article class="card">
-        <div class="shot"><img src="img/cover-ride-pet-to-work.jpg" alt="骑着萌宠去上班游戏首页：三枚彩蛋和六种可孵出的萌宠" loading="lazy" width="480" height="1039"></div>
-        <h3>骑着萌宠去上班</h3>
-        <div class="who">冲刺打卡 · 约 30 秒一局</div>
-        <p>破壳孵出坐骑，骑着它躲开“在吗？”消息轰炸，赶在电梯关门前扒门打卡。</p>
-        <div class="actions"><a class="btn" href="https://pi-niuniu.github.io/ride-pet-to-work/">开始试玩</a><a class="alt" href="https://github.com/pi-niuniu/ride-pet-to-work">源码</a></div>
+
+      <article class="work reveal">
+        <div class="copy">
+          <div class="kind">WeChat Mini Program</div>
+          <h3>四季三餐<small>好好吃饭</small></h3>
+          <p>给两口之家的做饭小程序：一键排出荤素搭配的时令菜单，食材自动合并成“半斤五花肉、一把青菜”这样的买菜清单，分享给做饭的人就行。</p>
+          <div class="chips"><span>智能排餐</span><span>菜市场斤两换算</span><span>锁定换菜</span><span>纯前端无服务器</span></div>
+          <a class="btn" href="https://github.com/puck-muling/three-dishes-and-soup">查看仓库<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 11L11 5M6 5h5v5"/></svg></a>
+        </div>
+        <div class="visual phone-stage" aria-hidden="true">
+          <div class="phone">
+            <div class="t">今天 · 午饭和晚饭</div>
+            <h5>3 菜 1 汤</h5>
+            <div class="dish">回锅肉 <em>大荤</em></div>
+            <div class="dish">番茄炒蛋 <em>小荤</em></div>
+            <div class="dish">清炒菜心 <em>时蔬</em></div>
+            <div class="dish">冬瓜排骨汤 <em>汤</em></div>
+            <div class="buy"><b>买菜清单</b>五花肉 半斤（约 250g）<br>排骨 1 斤（约 500g）<br>菜心 1 把 · 冬瓜 1 块</div>
+          </div>
+        </div>
       </article>
     </div>
   </section>
 
-  <section id="work" aria-labelledby="work-h">
-    <h2 class="label" id="work-h">在做的事</h2>
-    <p class="sub">三件事其实是一条线：用 AI 工具出素材，剪成短视频，再把好玩的点子做成小游戏。</p>
-    <div class="areas">
-      <div class="area"><h3>AI 工具使用</h3><p>出图、出视频、配音、配乐、写代码，各用什么工具，提示词怎么写，额度怎么省。</p></div>
-      <div class="area"><h3>短视频制作</h3><p>从剧本、分镜到剪辑、混音、字幕，一条 AI 短片完整做下来的流程和取舍。</p></div>
-      <div class="area"><h3>小游戏开发</h3><p>纯网页、零依赖的小游戏，从玩法设计、美术接入到打包上架小程序的过程。</p></div>
+  <section id="fields" aria-labelledby="fields-h">
+    <div class="wrap">
+      <div class="head">
+        <h2 id="fields-h">我在做的事</h2>
+        <p>工具、内容和小产品，都从“自己先用起来”开始。</p>
+      </div>
+      <div class="fields">
+        <div class="field reveal"><h3>技术分享</h3><p>多模型协作、自动化脚本、开发工具链，踩过的坑和可以直接抄的做法。</p></div>
+        <div class="field reveal"><h3>AI 工具使用</h3><p>出图、出视频、配音、配乐、写代码，各用什么、怎么写提示词、额度怎么省。</p></div>
+        <div class="field reveal"><h3>短视频制作</h3><p>从剧本、分镜到剪辑、混音、字幕，一条 AI 短片完整做下来的流程。</p></div>
+        <div class="field reveal"><h3>小游戏开发</h3><p>纯网页、零依赖的小游戏，从玩法设计、美术接入到打包上架。</p></div>
+      </div>
     </div>
   </section>
 
-  <section id="sites" aria-labelledby="sites-h">
-    <h2 class="label" id="sites-h">另外两个站</h2>
-    <p class="sub">按题材分开放：战国历史一个站，萌宠一个站。</p>
-    <div class="sites">
-      <a class="site" href="https://beimangyisui.github.io/">
-        <div class="url">beimangyisui.github.io</div>
-        <h3>北邙一穗</h3>
-        <p>战国历史短视频、战国题材游戏，以及做这些用到的 AI 工具。</p>
-      </a>
-      <a class="site" href="https://pi-niuniu.github.io/">
-        <div class="url">pi-niuniu.github.io</div>
-        <h3>皮妞妞</h3>
-        <p>萌宠分享、萌宠短视频，还有两款萌宠通勤小游戏。</p>
-      </a>
+  <div class="outro">
+    <div class="wrap">
+      <h2 class="reveal">代码都在 GitHub，<br>欢迎来提 Issue。</h2>
+      <a class="btn" href="https://github.com/puck-muling">去 GitHub<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 11L11 5M6 5h5v5"/></svg></a>
     </div>
-  </section>
+  </div>
+</main>
 
-  <footer>
-    <span>© 2026 Muling</span>
+<footer>
+  <div class="wrap">
+    <span>© 2026 木之灵 Muling</span>
     <a href="https://github.com/puck-muling">github.com/puck-muling</a>
-  </footer>
-</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var nav=document.getElementById('nav');
+  addEventListener('scroll',function(){nav.classList.toggle('scrolled',scrollY>8)},{passive:true});
+  var lines=[].slice.call(document.querySelectorAll('#term .line'));
+  if(reduce){lines.forEach(function(l){l.classList.add('on')})}
+  else{
+    var i=0;(function step(){ if(i<lines.length){lines[i++].classList.add('on');setTimeout(step,i===3?900:620)} else {setTimeout(function(){lines.forEach(function(l){l.classList.remove('on')});i=0;setTimeout(step,700)},6000)} })();
+  }
+  var els=document.querySelectorAll('.reveal');
+  if(reduce||!('IntersectionObserver' in window)){[].forEach.call(els,function(e){e.classList.add('in')});return}
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15});
+  [].forEach.call(els,function(e){io.observe(e)});
+})();
+</script>
 </body>
 </html>

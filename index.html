@@ -4,7 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>木之灵 Muling · 个人主页</title>
-<meta name="description" content="木之灵（Muling）：木之灵（Muling）的个人主页：技术分享、短视频制作、AI 工具使用、小游戏开发。">
+<meta name="description" content="技术分享、短视频制作、AI 工具使用、小游戏开发。这里放着我在做的事和做出来的东西。">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://puck-muling.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="木之灵 Muling · 个人主页">
+<meta property="og:description" content="技术分享、短视频制作、AI 工具使用、小游戏开发。">
+<meta property="og:url" content="https://puck-muling.github.io/">
+<meta property="og:image" content="https://puck-muling.github.io/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#F2F3EF">
 <style>
 :root{
@@ -20,7 +28,7 @@
   --mono:"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
 body{background:var(--porcelain);color:var(--ink);font-family:var(--latin),var(--sans);font-size:17px;line-height:1.75;-webkit-font-smoothing:antialiased}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--ultra);outline-offset:4px}
@@ -56,8 +64,9 @@ nav ul a:hover{color:var(--ink)}
 .term-bar i{width:11px;height:11px;border-radius:50%;background:#3A3D46}
 .term-bar span{margin-left:12px;color:#7D828E;font-size:12px;letter-spacing:.04em}
 .term-body{padding:22px 22px 26px;min-height:330px}
-.line{white-space:pre-wrap;opacity:0;transform:translateY(4px);transition:opacity .35s,transform .35s}
-.line.on{opacity:1;transform:none}
+.line{white-space:pre-wrap;transition:opacity .35s,transform .35s}
+#term.typing .line{opacity:0;transform:translateY(4px)}
+#term.typing .line.on{opacity:1;transform:none}
 .who-c{color:#E8A87C}.who-x{color:#8FB4FF}.ok{color:#7FD6A4}.warn{color:#F2C46B}.dim{color:#6E7380}
 .caret{display:inline-block;width:8px;height:15px;background:#8FB4FF;vertical-align:-2px;animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
@@ -153,8 +162,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 footer a{text-decoration:none}
 footer a:hover{color:var(--ink)}
 
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
-.reveal.in{opacity:1;transform:none}
+.reveal{transition:opacity .9s ease,transform .9s ease}
+.anim .reveal{opacity:0;transform:translateY(24px)}
+.anim .reveal.in{opacity:1;transform:none}
 
 @media (max-width:980px){
   .wrap{padding:0 22px}
@@ -177,7 +187,8 @@ footer a:hover{color:var(--ink)}
   .field,.field + .field{padding-left:0;border-left:none}
   .duo{grid-template-columns:1fr}
   .duo > div + div{border-left:none;border-top:1px solid #23262E}
-  nav ul li:not(:last-child){display:none}
+  nav ul{gap:16px;font-size:13px;letter-spacing:0}
+  nav ul li:last-child{display:none}
   .term{font-size:12.5px}
 }
 @media (prefers-reduced-motion:reduce){
@@ -307,10 +318,12 @@ footer a:hover{color:var(--ink)}
   var lines=[].slice.call(document.querySelectorAll('#term .line'));
   if(reduce){lines.forEach(function(l){l.classList.add('on')})}
   else{
+    document.getElementById('term').classList.add('typing');
     var i=0;(function step(){ if(i<lines.length){lines[i++].classList.add('on');setTimeout(step,i===3?900:620)} else {setTimeout(function(){lines.forEach(function(l){l.classList.remove('on')});i=0;setTimeout(step,700)},6000)} })();
   }
   var els=document.querySelectorAll('.reveal');
-  if(reduce||!('IntersectionObserver' in window)){[].forEach.call(els,function(e){e.classList.add('in')});return}
+  if(reduce||!('IntersectionObserver' in window)){return}
+  document.documentElement.classList.add('anim');
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15});
   [].forEach.call(els,function(e){io.observe(e)});
 })();

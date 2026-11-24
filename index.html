@@ -11,7 +11,11 @@
 <meta property="og:title" content="木之灵 Muling · 一个人，带一队 AI 干活">
 <meta property="og:description" content="Claude 写、Codex 审、Flow 拍、MiniMax 配音。开发工具、AI 短片和小游戏。">
 <meta property="og:url" content="https://puck-muling.github.io/">
-<meta property="og:image" content="https://puck-muling.github.io/og.jpg">
+<meta property="og:image" content="https://puck-muling.github.io/og-2026-11.jpg">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="木之灵个人主页首屏：一个人，带一队 AI 干活，旁边是多模型协作流程图">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#F3F4F6">
 <meta name="color-scheme" content="light">
@@ -30,7 +34,7 @@
   --text:#14161B;
   --soft:#3D424B;
   --mute:#5F6570;
-  --dim:#7D838E;
+  --dim:#626873;
   --grid:rgba(20,22,27,.055);
   /* 每个 AI 一种颜色，全站含义固定（白底对比度均 ≥4.5） */
   --claude:#B4521F;
@@ -83,7 +87,7 @@ nav .gh{display:inline-flex;align-items:center;gap:6px;color:var(--soft)}
 .lede{color:var(--soft);font-size:17px;max-width:30em}
 .lede b{font-weight:500;color:var(--text)}
 .crew{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;margin:30px 0 34px;max-width:30em}
-.crew li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--soft);padding-top:10px;border-top:1px solid var(--line)}
+.crew li{display:flex;flex-wrap:wrap;align-items:center;gap:2px 10px;font-size:14px;color:var(--soft);padding-top:10px;border-top:1px solid var(--line)}
 .crew li .mono{font-size:12.5px;color:var(--text)}
 .cta{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
 .btn{display:inline-flex;align-items:center;gap:10px;background:var(--text);color:#fff;text-decoration:none;font-weight:500;font-size:15px;padding:12px 22px;border-radius:8px;transition:transform .2s,background .2s}
@@ -92,17 +96,21 @@ nav .gh{display:inline-flex;align-items:center;gap:6px;color:var(--soft)}
 .ghost{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-size:15px;color:var(--soft);background:var(--panel);padding:11px 18px;border:1px solid var(--line-2);border-radius:8px;transition:border-color .2s,color .2s}
 .ghost:hover{border-color:var(--mute);color:var(--text)}
 .pulse{margin-top:28px;font-size:12px;color:var(--mute);display:flex;align-items:center;gap:10px;min-height:20px}
-.pulse .live{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(36,120,58,.5);animation:ping 2.4s infinite}
+.pulse .live{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(36,120,58,.5);animation:ping 2.4s 3}
 @keyframes ping{0%{box-shadow:0 0 0 0 rgba(36,120,58,.45)}70%{box-shadow:0 0 0 8px rgba(36,120,58,0)}100%{box-shadow:0 0 0 0 rgba(36,120,58,0)}}
 
 /* 招牌：编排图 */
 .orch{background:var(--panel);border:1px solid var(--line-2);border-radius:14px;box-shadow:0 1px 0 rgba(20,22,27,.04),0 32px 64px -36px rgba(20,22,27,.28);overflow:hidden}
 .orch-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px 10px 14px;border-bottom:1px solid var(--line)}
-.tabs{display:flex;gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:3px}
-.tabs button{font:inherit;font-size:13px;color:var(--mute);background:none;border:0;border-radius:6px;padding:5px 14px;cursor:pointer;transition:color .2s,background .2s}
+.tabs{display:flex;flex:none;gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:3px}
+.tabs button{font:inherit;white-space:nowrap;font-size:13px;color:var(--mute);background:none;border:0;border-radius:6px;padding:5px 14px;cursor:pointer;transition:color .2s,background .2s}
 .tabs button[aria-selected="true"]{background:var(--panel);color:var(--text);box-shadow:0 0 0 1px var(--line-2),0 1px 2px rgba(20,22,27,.08)}
 .tabs button:hover{color:var(--text)}
+.orch-bar .right{display:flex;align-items:center;gap:10px;min-width:0}
 .orch-bar .file{font-size:11.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ctl{display:inline-flex;align-items:center;justify-content:center;flex:none;width:30px;height:30px;border:1px solid var(--line-2);border-radius:7px;background:var(--panel);color:var(--soft);cursor:pointer;transition:color .2s,border-color .2s}
+.ctl:hover{color:var(--text);border-color:var(--mute)}
+.ctl svg{width:12px;height:12px}
 .stage{padding:8px 10px 0;background-image:radial-gradient(rgba(20,22,27,.09) 1px,transparent 1.2px);background-size:20px 20px}
 #graph{display:block;width:100%;height:auto}
 #graph .edge{fill:none;stroke:var(--line-2);stroke-width:1.5}
@@ -118,8 +126,7 @@ nav .gh{display:inline-flex;align-items:center;gap:6px;color:var(--soft)}
 #graph .pkt{fill:var(--c);stroke:#fff;stroke-width:1.5;filter:drop-shadow(0 0 4px var(--c))}
 .log{list-style:none;font-family:var(--code);font-size:12.5px;line-height:1.95;padding:12px 18px 14px;border-top:1px solid var(--line);height:calc(1.95em * 6 + 26px);overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;background:var(--bg-2)}
 .log li{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--soft);animation:in .35s ease both}
-.log li:nth-last-child(n+5){opacity:.55}
-.log li:nth-last-child(n+6){opacity:.35}
+.log li:nth-last-child(n+4){color:var(--mute)}
 .log .t{color:var(--dim);margin-right:10px}
 .log .who{margin-right:8px}
 .log .claude{color:var(--claude)}.log .codex{color:var(--codex)}.log .flow{color:var(--flow)}.log .minimax{color:var(--minimax)}.log .you,.log .tool{color:var(--text)}.log .peer{color:#6B7280}
@@ -163,7 +170,7 @@ nav .gh{display:inline-flex;align-items:center;gap:6px;color:var(--soft)}
 .guards code{font-family:var(--code);font-size:12.5px;color:var(--codex)}
 .guards p{font-size:13.5px;color:var(--mute);margin-top:4px;line-height:1.6}
 .install{display:flex;align-items:stretch;margin-top:18px;border:1px solid var(--line-2);border-radius:8px;overflow:hidden;background:var(--bg-2)}
-.install code{flex:1;min-width:0;font-family:var(--code);font-size:12.5px;color:var(--soft);padding:11px 14px;white-space:nowrap;overflow-x:auto;scrollbar-width:none}
+.install code{flex:1;min-width:0;font-family:var(--code);font-size:12.5px;line-height:1.7;color:var(--soft);padding:10px 14px;white-space:pre-wrap;word-break:break-all}
 .install code::-webkit-scrollbar{display:none}
 .install code b{color:var(--ok);font-weight:400;margin-right:8px}
 .install button{font:inherit;font-size:12.5px;color:var(--soft);background:var(--bg);border:0;border-left:1px solid var(--line-2);padding:0 14px;cursor:pointer;min-width:64px}
@@ -243,10 +250,16 @@ footer a:hover{color:var(--text)}
   .kit td:first-child{width:auto}
   .kit td:last-child{grid-column:1 / -1;font-size:13.5px}
   .orch figcaption span:last-child{display:none}
-  .log{font-size:11.5px;padding:10px 14px 12px}
+  .log{font-size:11.5px;padding:10px 14px 12px;height:auto;min-height:16em;overflow:visible}
+  .log li{white-space:normal;line-height:1.65;padding:2px 0}
+}
+@media (max-width:480px){
+  /* 手机上统一成“名字一行、分工一行”，四项对齐 */
+  .crew{gap:12px 16px}
+  .crew li .role{flex-basis:100%;padding-left:18px;font-size:13px;color:var(--mute)}
+  .orch-bar .file{display:none}
 }
 @media (max-width:400px){
-  .crew{grid-template-columns:1fr}
   nav ul{gap:14px}
 }
 @media (prefers-reduced-motion:reduce){
@@ -266,8 +279,8 @@ footer a:hover{color:var(--text)}
     <ul>
       <li><a href="#works">作品</a></li>
       <li><a href="#kit">工具箱</a></li>
-      <li class="opt"><a href="#about">关于</a></li>
-      <li><a class="gh" href="https://github.com/puck-muling">GitHub<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 11L11 5M6 5h5v5"/></svg></a></li>
+      <li><a href="#about">关于</a></li>
+      <li class="opt"><a class="gh" href="https://github.com/puck-muling">GitHub<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 11L11 5M6 5h5v5"/></svg></a></li>
     </ul>
   </div>
 </nav>
@@ -280,10 +293,10 @@ footer a:hover{color:var(--text)}
         <h1>一个人，<br>带一队 <span class="ai">AI</span><br>干活。</h1>
         <p class="lede">我做开发工具、AI 短片和小游戏。写代码时 <b>Claude</b> 动手、<b>Codex</b> 把关；拍片时剧本、首帧、镜头、配音各交给最合适的模型。我负责定方向，最后验收。</p>
         <ul class="crew" aria-label="这支队伍">
-          <li><i class="dot a-claude"></i><span class="mono">Claude</span>写代码 · 写剧本</li>
-          <li><i class="dot a-codex"></i><span class="mono">Codex</span>审代码 · 出图</li>
-          <li><i class="dot a-flow"></i><span class="mono">Flow</span>镜头 · 配乐</li>
-          <li><i class="dot a-minimax"></i><span class="mono">MiniMax</span>配音</li>
+          <li><i class="dot a-claude"></i><span class="mono">Claude</span><span class="role">写代码 · 写剧本</span></li>
+          <li><i class="dot a-codex"></i><span class="mono">Codex</span><span class="role">审代码 · 出图</span></li>
+          <li><i class="dot a-flow"></i><span class="mono">Flow</span><span class="role">镜头 · 配乐</span></li>
+          <li><i class="dot a-minimax"></i><span class="mono">MiniMax</span><span class="role">配音</span></li>
         </ul>
         <div class="cta">
           <a class="btn" href="#works">看作品<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M8 3v10M4 9l4 4 4-4"/></svg></a>
@@ -295,14 +308,19 @@ footer a:hover{color:var(--text)}
       <figure class="orch" id="orch" aria-label="多模型协作流程演示">
         <div class="orch-bar">
           <div class="tabs" role="tablist" aria-label="选择流水线">
-            <button role="tab" aria-selected="true" data-mode="code">写代码</button>
-            <button role="tab" aria-selected="false" data-mode="film">拍短片</button>
+            <button role="tab" id="tab-code" aria-selected="true" aria-controls="orch-panel" tabindex="0" data-mode="code">写代码</button>
+            <button role="tab" id="tab-film" aria-selected="false" aria-controls="orch-panel" tabindex="-1" data-mode="film">拍短片</button>
           </div>
-          <span class="file mono" id="file">~/pipeline/code.log</span>
+          <div class="right">
+            <span class="file mono" id="file">~/pipeline/code.log</span>
+            <button type="button" class="ctl" id="pause" aria-pressed="false" aria-label="暂停动画"></button>
+          </div>
         </div>
-        <div class="stage"><svg id="graph" role="img" aria-label="流程图"></svg></div>
-        <ol class="log" id="log"></ol>
-        <figcaption class="mono"><span>流程是我每天真在用的；日志内容为演示</span><span>点上面切换流水线</span></figcaption>
+        <div id="orch-panel" role="tabpanel" aria-labelledby="tab-code">
+          <div class="stage"><svg id="graph" role="img" aria-label="流程图"></svg></div>
+          <ol class="log" id="log"></ol>
+        </div>
+        <figcaption class="mono"><span>流程是我每天真在用的；日志内容为演示</span><span>← → 切换 · 可暂停</span></figcaption>
       </figure>
     </div>
   </header>
@@ -311,7 +329,7 @@ footer a:hover{color:var(--text)}
     <div class="wrap">
       <div class="sec-head">
         <div><p class="label">作品</p><h2 id="works-h">做出来、<br>能直接用的。</h2></div>
-        <p>四样东西：一个开发者工具、一个每天自动更新的看板、一个能玩的游戏 Demo、一个做饭小程序。代码都在 GitHub，仓库数据实时读取。</p>
+        <p>四样东西：一个开发者工具、一个每天自动更新的看板、一个能玩的游戏 Demo、一个做饭小程序。代码都在 GitHub，星数和更新时间读自 GitHub 公开记录。</p>
       </div>
 
       <div class="bento">
@@ -328,7 +346,7 @@ footer a:hover{color:var(--text)}
           </div>
           <div class="guards" aria-label="四道保护">
             <div><code>approved_auth</code><p>发请求前校验登录方式，防止静默切到按量扣费。</p></div>
-            <div><code>STOP</code><p>识别到风控特征就写入停机锁，阻断后续调用，避免连带封号。</p></div>
+            <div><code>STOP</code><p>检测到风控信号后写入停机锁，停止后续调用，等人工排查。</p></div>
             <div><code>read-only</code><p>审阅方只拿只读工具，不采信对方结论，要求证据在前。</p></div>
             <div><code>peer freeze</code><p>用 SHA-256 固化已定方案，多轮之后不被悄悄推翻。</p></div>
           </div>
@@ -413,7 +431,7 @@ footer a:hover{color:var(--text)}
           <h3>最近 30 天</h3>
           <p class="sub">每格一天，亮的是有推送的日子。</p>
           <div class="heat" id="heat"></div>
-          <div class="hnote"><span id="h-from"></span><span>今天</span></div>
+          <div class="hnote"><span id="h-from"></span><span id="h-to"></span></div>
           <p class="heat-src mono" id="heat-src">数据来自 GitHub 公开动态</p>
         </div>
       </div>
@@ -506,7 +524,11 @@ footer a:hover{color:var(--text)}
   var svg = document.getElementById('graph'), logEl = document.getElementById('log'), fileEl = document.getElementById('file');
   var orch = document.getElementById('orch'), tabs = [].slice.call(document.querySelectorAll('.tabs button'));
   var NS = 'http://www.w3.org/2000/svg';
-  var mode = 'code', layout = null, edges = {}, nodesEl = {}, run = 0, visible = true, paused = null;
+  var mode = 'code', layout = null, edges = {}, nodesEl = {}, run = 0, visible = true, paused = null, held = false, pinned = false;
+  var panel = document.getElementById('orch-panel'), pauseBtn = document.getElementById('pause');
+  var ICON_PAUSE = '<svg viewBox="0 0 12 12" aria-hidden="true"><rect x="2" y="1.5" width="2.6" height="9" rx=".6" fill="currentColor"/><rect x="7.4" y="1.5" width="2.6" height="9" rx=".6" fill="currentColor"/></svg>';
+  var ICON_PLAY = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1.6v8.8L10.4 6z" fill="currentColor"/></svg>';
+  function active(){ return visible && !document.hidden && !held; }
 
   function el(tag, attrs, parent){ var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
   function pickLayout(){ return orch.clientWidth < 540 ? 'tall' : 'wide'; }
@@ -545,8 +567,20 @@ footer a:hover{color:var(--text)}
   }
   function stamp(ms){ var s = ms / 1000; return '00:' + (s < 10 ? '0' : '') + s.toFixed(1); }
 
-  function wait(ms, id){ return new Promise(function(res){ (function tick(){ if (id !== run) return; if (!visible || document.hidden){ paused = tick; return; } setTimeout(function(){ if (id === run) res(); }, ms); })(); }); }
-  function resume(){ if (paused && visible && !document.hidden){ var p = paused; paused = null; p(); } }
+  function wait(ms, id){
+    return new Promise(function(res){
+      (function go(){
+        if (id !== run) return;
+        if (!active()){ paused = go; return; }
+        setTimeout(function(){
+          if (id !== run) return;
+          if (!active()){ paused = res; return; }   /* 计时期间被暂停或离开视口：恢复后再继续 */
+          res();
+        }, ms);
+      })();
+    });
+  }
+  function resume(){ if (paused && active()){ var p = paused; paused = null; p(); } }
 
   function fly(key, color, id){
     return new Promise(function(res){
@@ -557,7 +591,7 @@ footer a:hover{color:var(--text)}
       path.classList.add('hot');
       function frame(ts){
         if (id !== run){ dot.remove(); return; }
-        if (!visible || document.hidden){ t0 = null; paused = function(){ requestAnimationFrame(frame); }; return; }
+        if (!active()){ t0 = null; paused = function(){ requestAnimationFrame(frame); }; return; }
         if (t0 === null) t0 = ts - (dot._p || 0) * dur;
         var p = Math.min(1, (ts - t0) / dur); dot._p = p;
         var e = p < .5 ? 2*p*p : 1 - Math.pow(-2*p+2, 2)/2;
@@ -578,7 +612,8 @@ footer a:hover{color:var(--text)}
 
   function play(next){
     var id = ++run; mode = next || mode;
-    tabs.forEach(function(b){ b.setAttribute('aria-selected', String(b.dataset.mode === mode)); });
+    tabs.forEach(function(b){ var on = b.dataset.mode === mode; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; });
+    panel.setAttribute('aria-labelledby', 'tab-' + mode);
     fileEl.textContent = MODES[mode].file;
     layout = pickLayout(); build(); logEl.innerHTML = '';
     if (reduce){ staticView(); return; }
@@ -586,7 +621,8 @@ footer a:hover{color:var(--text)}
     nodesEl[M.steps[0][0]].classList.add('on');
     (function step(){
       if (id !== run) return;
-      if (i >= M.steps.length){ wait(3800, id).then(function(){ play(mode === 'code' ? 'film' : 'code'); }); return; }
+      /* 访客手动选过就停在所选流程，否则两条轮流播 */
+      if (i >= M.steps.length){ wait(3800, id).then(function(){ play(pinned ? mode : (mode === 'code' ? 'film' : 'code')); }); return; }
       var s = M.steps[i++];
       fly(s[0] + '>' + s[1], COLORS[s[2]], id).then(function(){
         clock += 1300 + Math.round(Math.random() * 900);
@@ -596,7 +632,25 @@ footer a:hover{color:var(--text)}
     })();
   }
 
-  tabs.forEach(function(b){ b.addEventListener('click', function(){ play(b.dataset.mode); }); });
+  function choose(m, focus){ pinned = true; play(m); if (focus) document.getElementById('tab-' + m).focus(); }
+  tabs.forEach(function(b){ b.addEventListener('click', function(){ choose(b.dataset.mode); }); });
+  document.querySelector('.tabs').addEventListener('keydown', function(e){
+    var order = ['code', 'film'], i = order.indexOf(mode), n = null;
+    if (e.key === 'ArrowRight') n = order[(i + 1) % 2];
+    else if (e.key === 'ArrowLeft') n = order[(i + 1) % 2];
+    else if (e.key === 'Home') n = order[0];
+    else if (e.key === 'End') n = order[1];
+    if (n){ e.preventDefault(); choose(n, true); }
+  });
+  function setHeld(v){
+    held = v; pauseBtn.setAttribute('aria-pressed', String(v));
+    pauseBtn.setAttribute('aria-label', v ? '继续播放动画' : '暂停动画');
+    pauseBtn.innerHTML = v ? ICON_PLAY : ICON_PAUSE;
+    if (!v) resume();
+  }
+  pauseBtn.addEventListener('click', function(){ setHeld(!held); });
+  setHeld(false);
+  if (reduce) pauseBtn.hidden = true;
   var rT; addEventListener('resize', function(){ clearTimeout(rT); rT = setTimeout(function(){ if (pickLayout() !== layout) play(mode); }, 200); });
   document.addEventListener('visibilitychange', resume);
   if ('IntersectionObserver' in window){
@@ -616,13 +670,15 @@ footer a:hover{color:var(--text)}
   /* ---------- GitHub 实时数据（失败时用下面的快照） ---------- */
   var USER = 'puck-muling';
   var REPO_COLOR = {'peer-agent':'claude', 'new-term-radar-web':'codex', 'qin-mie-liu-guo-game':'flow', 'three-dishes-and-soup':'minimax', 'puck-muling.github.io':'you'};
+  /* 快照：只计推送（PushEvent + 仓库最近推送时间），北京时间，2026-11-24 采集 */
   var SNAPSHOT = { at:'2026-11-24', days:{
     'new-term-radar-web':['2026-11-02','2026-11-03','2026-11-04','2026-11-06','2026-11-07','2026-11-08','2026-11-09','2026-11-10','2026-11-11','2026-11-12','2026-11-13','2026-11-17','2026-11-18','2026-11-19','2026-11-20','2026-11-21','2026-11-22','2026-11-24'],
     'peer-agent':['2026-11-01','2026-11-02','2026-11-03','2026-11-06','2026-11-13'],
     'qin-mie-liu-guo-game':['2026-11-13'],
-    'three-dishes-and-soup':['2026-10-30','2026-11-06','2026-11-12'],
-    'puck-muling.github.io':['2026-11-23']
+    'three-dishes-and-soup':['2026-11-06','2026-11-12'],
+    'puck-muling.github.io':['2026-11-23','2026-11-24']
   }};
+  var fetchedAt = 0;
   function ymd(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
   function ago(iso){
     var m = (Date.now() - new Date(iso).getTime()) / 60000;
@@ -636,6 +692,7 @@ footer a:hover{color:var(--text)}
     var list = [];
     for (var i = 29; i >= 0; i--){ var d = new Date(today); d.setDate(d.getDate() - i); list.push(ymd(d)); }
     document.getElementById('h-from').textContent = list[0].slice(5);
+    document.getElementById('h-to').textContent = live ? '今天' : list[29].slice(5);
     Object.keys(REPO_COLOR).forEach(function(repo){
       var set = days[repo] || [], n = 0;
       var row = document.createElement('div'); row.className = 'hrow';
@@ -643,13 +700,16 @@ footer a:hover{color:var(--text)}
       row.innerHTML = '<div class="hname">' + repo + '<span>' + n + ' 天</span></div><div class="cells a-' + REPO_COLOR[repo] + '" aria-label="' + repo + ' 最近 30 天有 ' + n + ' 天有推送">' + cells + '</div>';
       box.appendChild(row);
     });
-    document.getElementById('heat-src').textContent = live ? '数据来自 GitHub 公开动态 · 刚刚读取' : '数据来自 GitHub 公开动态 · 快照 ' + SNAPSHOT.at;
+    var at = new Date(fetchedAt), hm = String(at.getHours()).padStart(2,'0') + ':' + String(at.getMinutes()).padStart(2,'0');
+    document.getElementById('heat-src').textContent = live ? '只计推送 · 来自 GitHub 公开记录 · 读取于 ' + ymd(at).slice(5) + ' ' + hm : '只计推送 · 读不到 GitHub 时显示 ' + SNAPSHOT.at + ' 的快照';
   }
   drawHeat(SNAPSHOT.days, new Date(SNAPSHOT.at + 'T12:00:00'), false);
 
   function cached(url){
-    try { var c = JSON.parse(sessionStorage.getItem(url) || 'null'); if (c && Date.now() - c.t < 600000) return Promise.resolve(c.d); } catch(e){}
-    return fetch(url, {headers:{Accept:'application/vnd.github+json'}}).then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); }).then(function(d){ try { sessionStorage.setItem(url, JSON.stringify({t:Date.now(), d:d})); } catch(e){} return d; });
+    try { var c = JSON.parse(sessionStorage.getItem(url) || 'null'); if (c && Date.now() - c.t < 600000){ fetchedAt = fetchedAt ? Math.min(fetchedAt, c.t) : c.t; return Promise.resolve(c.d); } } catch(e){}
+    var ac = window.AbortController ? new AbortController() : null;
+    if (ac) setTimeout(function(){ ac.abort(); }, 8000);   /* 慢网 8 秒放弃，保留快照 */
+    return fetch(url, {headers:{Accept:'application/vnd.github+json'}, signal: ac ? ac.signal : undefined}).then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); }).then(function(d){ var t = Date.now(); fetchedAt = fetchedAt ? Math.min(fetchedAt, t) : t; try { sessionStorage.setItem(url, JSON.stringify({t:t, d:d})); } catch(e){} return d; });
   }
 
   cached('https://api.github.com/users/' + USER + '/repos?per_page=100&sort=pushed').then(function(repos){
@@ -660,11 +720,20 @@ footer a:hover{color:var(--text)}
     });
     var latest = repos[0];
     document.querySelector('#pulse span').textContent = repos.length + ' 个公开仓库 · 最近推送 ' + latest.name + ' · ' + ago(latest.pushed_at);
-    return cached('https://api.github.com/users/' + USER + '/events/public?per_page=100').then(function(evs){
+    /* 公开动态按页读取，直到超出 30 天或没有下一页（GitHub 最多给 300 条） */
+    var all = [], cutoff = Date.now() - 31 * 864e5;
+    function page(n){
+      return cached('https://api.github.com/users/' + USER + '/events/public?per_page=100&page=' + n).then(function(evs){
+        if (!Array.isArray(evs)) return;
+        all = all.concat(evs);
+        var last = evs[evs.length - 1];
+        if (evs.length === 100 && n < 3 && last && new Date(last.created_at).getTime() > cutoff) return page(n + 1);
+      });
+    }
+    return page(1).then(function(){
       var days = {};
-      evs.forEach(function(e){
-        var name = e.repo.name.split('/'); if (name[0] !== USER) return;
-        if (['PushEvent','CreateEvent','ReleaseEvent','PullRequestEvent'].indexOf(e.type) < 0) return;
+      all.forEach(function(e){
+        var name = e.repo.name.split('/'); if (name[0] !== USER || e.type !== 'PushEvent') return;
         var d = ymd(new Date(e.created_at)); (days[name[1]] = days[name[1]] || []).push(d);
       });
       repos.forEach(function(r){ var d = ymd(new Date(r.pushed_at)); (days[r.name] = days[r.name] || []).push(d); });
